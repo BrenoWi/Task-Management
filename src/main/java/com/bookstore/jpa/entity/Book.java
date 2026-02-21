@@ -37,6 +37,5 @@ public class Book {
     private Set<Author> authors = new HashSet<>();
 
     @OneToOne(mappedBy = "book", cascade = CascadeType.ALL)
-    @JoinColumn(name = "review_id")
     private Review review;
 }
