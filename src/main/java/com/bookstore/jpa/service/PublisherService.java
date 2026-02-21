@@ -2,6 +2,8 @@ package com.bookstore.jpa.service;
 
 import com.bookstore.jpa.entity.Publisher;
 import com.bookstore.jpa.entity.dto.PublisherRequestDto;
+import com.bookstore.jpa.entity.dto.PublisherResponseDto;
+import com.bookstore.jpa.mapper.PublisherMapper;
 import com.bookstore.jpa.repository.IPublisherRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +15,13 @@ public class PublisherService {
         this.publisherRepository = publisherRepository;
     }
 
-    public Publisher savePublisher(PublisherRequestDto publisherRequestDto){
+    public PublisherResponseDto savePublisher(PublisherRequestDto publisherRequestDto){
         if(publisherRepository.existsByName(publisherRequestDto.name())){
             throw new RuntimeException("Publisher already exists in database.");
         }
         Publisher publisher = new Publisher();
         publisher.setName(publisherRequestDto.name());
 
-        return publisherRepository.save(publisher);
+        return PublisherMapper.toDto(publisherRepository.save(publisher));
     }
 }

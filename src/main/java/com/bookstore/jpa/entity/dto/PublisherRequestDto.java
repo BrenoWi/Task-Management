@@ -1,4 +1,6 @@
 package com.bookstore.jpa.entity.dto;
 
-public record PublisherRequestDto(String name) {
+import jakarta.validation.constraints.NotBlank;
+
+public record PublisherRequestDto(@NotBlank(message = "Publisher name is required") String name) {
 }
