@@ -27,4 +27,10 @@ public class BookController {
     public ResponseEntity<BookResponseDto> getBookById(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(bookService.getBookById(id));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBookById(@PathVariable Long id){
+        bookService.deleteBook(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

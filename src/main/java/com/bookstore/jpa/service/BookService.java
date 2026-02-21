@@ -61,6 +61,14 @@ public class BookService {
         return BookMapper.toDto(bookRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Book not found.")));
     }
+
+    @Transactional
+    public void deleteBook(Long id){
+        Book book = bookRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("Book not found."));
+        book.getAuthors().clear();
+        bookRepository.delete(book);
+    }
 }
 
 

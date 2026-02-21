@@ -35,6 +35,6 @@ public class Book {
     )
     private Set<Author> authors = new HashSet<>();
 
-    @OneToOne(mappedBy = "book", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private Review review;
 }

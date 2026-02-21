@@ -30,4 +30,13 @@ public class PublisherService {
         return PublisherMapper.toDto(publisherRepository.findById(id)
                 .orElseThrow(()->new EntityNotFoundException("Publisher not found.")));
     }
+
+    public void deletePublisherById(Long id){
+        Publisher publisher = publisherRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Publisher not found."));
+        if (!publisher.getBooks().isEmpty()){
+            throw new IllegalStateException("Publisher has books, can't be deleted.");
+        }
+        publisherRepository.delete(publisher);
+    }
 }

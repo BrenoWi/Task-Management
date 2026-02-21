@@ -27,4 +27,10 @@ public class PublisherController {
     public ResponseEntity<PublisherResponseDto> getPublisherById(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(publisherService.getPublisherById(id));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePublisherById(@PathVariable Long id){
+        publisherService.deletePublisherById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }
