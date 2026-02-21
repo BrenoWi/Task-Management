@@ -12,6 +12,8 @@ public interface IBookRepository extends JpaRepository<Book, UUID> {
 
     Book findByTitle(String title);
 
+    boolean existsByTitle(String title);
+
     @Query(value = "SELECT * FROM book WHERE publisher_id = :id", nativeQuery = true)
     List<Book> findByPublisherId(@Param("id") UUID id);
 }
