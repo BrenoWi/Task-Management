@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table
@@ -18,8 +17,8 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Book {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String title;
@@ -36,7 +35,6 @@ public class Book {
     )
     private Set<Author> authors = new HashSet<>();
 
-    @OneToOne(mappedBy = "book", cascade = CascadeType.ALL)
-    @JoinColumn(name = "review_id")
+    @OneToOne(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private Review review;
 }

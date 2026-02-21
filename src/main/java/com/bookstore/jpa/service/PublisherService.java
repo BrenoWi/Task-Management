@@ -1,8 +1,11 @@
 package com.bookstore.jpa.service;
 
 import com.bookstore.jpa.entity.Publisher;
-import com.bookstore.jpa.entity.dto.PublisherDto;
+import com.bookstore.jpa.entity.dto.PublisherRequestDto;
+import com.bookstore.jpa.entity.dto.PublisherResponseDto;
+import com.bookstore.jpa.mapper.PublisherMapper;
 import com.bookstore.jpa.repository.IPublisherRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,13 +16,27 @@ public class PublisherService {
         this.publisherRepository = publisherRepository;
     }
 
-    public Publisher savePublisher(PublisherDto publisherDto){
-        if(publisherRepository.existsByName(publisherDto.name())){
+    public PublisherResponseDto savePublisher(PublisherRequestDto publisherRequestDto){
+        if(publisherRepository.existsByName(publisherRequestDto.name())){
             throw new RuntimeException("Publisher already exists in database.");
         }
         Publisher publisher = new Publisher();
-        publisher.setName(publisherDto.name());
+        publisher.setName(publisherRequestDto.name());
 
-        return publisherRepository.save(publisher);
+        return PublisherMapper.toDto(publisherRepository.save(publisher));
+    }
+
+    public PublisherResponseDto getPublisherById(Long id){
+        return PublisherMapper.toDto(publisherRepository.findById(id)
+                .orElseThrow(()->new EntityNotFoundException("Publisher not found.")));
+    }
+
+    public void deletePublisherById(Long id){
+        Publisher publisher = publisherRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Publisher not found."));
+        if (!publisher.getBooks().isEmpty()){
+            throw new IllegalStateException("Publisher has books, can't be deleted.");
+        }
+        publisherRepository.delete(publisher);
     }
 }
