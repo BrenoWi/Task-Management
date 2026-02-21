@@ -55,6 +55,13 @@ public class BookService {
         book.setReview(review);
 
         return BookMapper.toDto(bookRepository.save(book));
-        }
     }
+
+    public BookResponseDto getBookById(Long id){
+        return BookMapper.toDto(bookRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("Book not found.")));
+    }
+}
+
+
 

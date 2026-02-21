@@ -1,7 +1,6 @@
 package com.bookstore.jpa.entity.dto;
 
-import java.util.UUID;
 
-public record PublisherResponseDto(UUID id,
+public record PublisherResponseDto(Long id,
                                    String name) {
 }

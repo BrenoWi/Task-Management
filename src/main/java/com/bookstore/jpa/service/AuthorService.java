@@ -5,6 +5,7 @@ import com.bookstore.jpa.entity.dto.AuthorRequestDto;
 import com.bookstore.jpa.entity.dto.AuthorResponseDto;
 import com.bookstore.jpa.mapper.AuthorMapper;
 import com.bookstore.jpa.repository.IAuthorRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,5 +24,10 @@ public class AuthorService {
         author.setName(authorRequestDto.name());
 
         return AuthorMapper.toDto(authorRepository.save(author));
+    }
+
+    public AuthorResponseDto findAuthorById(Long id){
+        return AuthorMapper.toDto(authorRepository.findById(id)
+                .orElseThrow(()->new EntityNotFoundException("Author not found.")));
     }
 }

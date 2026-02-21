@@ -5,6 +5,7 @@ import com.bookstore.jpa.entity.dto.PublisherRequestDto;
 import com.bookstore.jpa.entity.dto.PublisherResponseDto;
 import com.bookstore.jpa.mapper.PublisherMapper;
 import com.bookstore.jpa.repository.IPublisherRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,5 +24,10 @@ public class PublisherService {
         publisher.setName(publisherRequestDto.name());
 
         return PublisherMapper.toDto(publisherRepository.save(publisher));
+    }
+
+    public PublisherResponseDto getPublisherById(Long id){
+        return PublisherMapper.toDto(publisherRepository.findById(id)
+                .orElseThrow(()->new EntityNotFoundException("Publisher not found.")));
     }
 }
